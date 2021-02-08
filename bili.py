@@ -4,8 +4,8 @@ import time
 import smtplib
 import email
 def emailsend():
-    text = '<h1>祝贺B站用户%s（uid：%d）于%s达到%d个粉丝数\n</h1>'\
-           '<h2>邮件由系统自动发出，无需回复</h2>'%(name,uid,time.strftime('%Y-%M-%D %H-%M-%S',max_fans))
+    text = '<h1>祝贺B站用户%s（uid：%d）达到了%d个粉丝数\n</h1>'\
+           '<h2>邮件由系统自动发出，无需回复</h2>'%(name,uid,max_fans)
     header = email.mime.text.mimetext(text,'html')
     header['from']
     header['from'] = email.utils.formataddr(('BiliBili粉丝提醒',user))
