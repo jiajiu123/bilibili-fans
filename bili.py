@@ -2,20 +2,22 @@ import requests
 import json
 import time
 import smtplib
-import email
+from email.mime.text import MIMEText
+from email.header import Header
 def emailsend():
-    text = '<h1>祝贺B站用户%s（uid：%d）达到了%d个粉丝数\n</h1>'\
-           '<h2>邮件由系统自动发出，无需回复</h2>'%(name,uid,max_fans)
-    header = email.text.mimetext(text,'html')
-    header['from']
-    header['from'] = email.utils.formataddr(('BiliBili粉丝提醒',user))
-    header['to'] = email.utils.formataddr((username,user))
-    header['subject']=u'B站用户粉丝提醒'
-    smtp = smtplib.smtp
-    smtp.connect('smtp.qq.com',25)
-    smtp.login(user,passwd)
-    smtp.sendmail(user,user,header.as_string())
-    smtp.close
+    tiptime = 3
+    mail_msg = '<h1>祝贺B站用户%s（uid：%d）达到了%d个粉丝数\n</h1>'\
+               '<h2>邮件由系统自动发出，无需回复</h2>'%(name,uid,max_fans)
+    message = MIMEText(mail_msg, 'html', 'utf-8')
+    message['From'] = Header('jiajiu', 'utf-8')
+    message['To'] =  Header(username,'utf-8')
+    subject = 'BiliBili粉丝提醒'
+    message['Subject'] = Header(subject, 'utf-8')
+    smtpObj = smtplib.SMTP() 
+    smtpObj.connect('smtp.qq.com',587)
+    smtpObj.login(emailaddr,passwd)
+    smtpObj.sendmail(emailaddr,emailaddr,message.as_string())
+    print ("邮件发送成功")
 uid = input('请输入你想查询的用户的UID:')
 uid = int(uid)
 max_fans = 0
@@ -54,10 +56,10 @@ if polling_fans == '1':
     max_fans = input('检测是否达到指定粉丝数？检测请输入指定数字，否则请输入"0"：')
     max_fans = int(max_fans)
 if max_fans != 0:
-    user = input('是否需要在粉丝数达到%d个时发送邮件通知？需要请输入qq邮箱地址，不需要请留空'%(max_fans))
-if user != '':
-    username = input('请输入qq昵称')
-    passwd = input('请输入qq邮箱的smtp授权码，如不知道可在搜索引擎搜索“qq邮箱开启smtp”')
+    emailaddr = input('是否需要在粉丝数达到%d个时发送邮件通知？需要请输入qq邮箱地址，不需要请留空：'%(max_fans))
+if emailaddr != '':
+    username = input('请输入邮件的收件人（无特殊要求可随意填写）：')
+    passwd = input('请输入qq邮箱的smtp授权码，如不知道可在搜索引擎搜索“qq邮箱开启smtp”：')
     while 1:
         response = requests.get('https://api.bilibili.com/x/web-interface/card?mid=%d'%(uid))
         data = json.loads(response.text)
@@ -72,15 +74,18 @@ if user != '':
         else:
             if fans-last_fans > 0:
                 print('当前粉丝数：%d,与上一秒相比增加了%d个，已达到指定的%d个粉丝标准'%(fans,fans - last_fans,max_fans))
-                if user != "":
+                if emailaddr != "":
                     emailsend()
+                    break
             elif fans-last_fans < 0:
                 print('当前粉丝数：%d,与上一秒相比减少了%d个，已达到指定的%d个粉丝标准'%(fans,last_fans - fans,max_fans))
-                if user != "":
+                if emailaddr != "":
                     emailsend()
+                    break
             else:
                 print('当前粉丝数：%d,与上一秒相比无变化，已达到指定的%d个标准'%(fans,max_fans))
-                if user != "":
+                if emailaddr != "":
                     emailsend()
+                    break
         last_fans = fans
         time.sleep(1)
