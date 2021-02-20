@@ -66,26 +66,26 @@ if emailaddr != '':
         fans = data['data']['follower']
         if fans < max_fans:
             if fans-last_fans > 0:
-                print('当前粉丝数：%d,与上一秒相比增加了%d个，未达到指定的%d个粉丝标准,距离%d个粉丝还差%d个'%(fans,fans - last_fans,max_fans,max_fans,max_fans - fans))
+                print('当前粉丝数：%d,与上一次相次比增加了%d个，未达到指定的%d个粉丝标准,距离%d个粉丝还差%d个'%(fans,fans - last_fans,max_fans,max_fans,max_fans - fans))
             elif fans-last_fans < 0:
-                print('当前粉丝数：%d,与上一秒相比减少了%d个，未达到指定的%d个粉丝标准,距离%d个粉丝还差%d个'%(fans,last_fans - fans,max_fans,max_fans,max_fans - fans))
+                print('当前粉丝数：%d,与上一次相比减少了%d个，未达到指定的%d个粉丝标准,距离%d个粉丝还差%d个'%(fans,last_fans - fans,max_fans,max_fans,max_fans - fans))
             else:
-                print('当前粉丝数：%d,与上一秒相比无变化，未达到指定的%d个粉丝标准,距离%d个粉丝还差%d个'%(fans,max_fans,max_fans,max_fans - fans))
+                print('当前粉丝数：%d,与上一次相比无变化，未达到指定的%d个粉丝标准,距离%d个粉丝还差%d个'%(fans,max_fans,max_fans,max_fans - fans))
         else:
             if fans-last_fans > 0:
-                print('当前粉丝数：%d,与上一秒相比增加了%d个，已达到指定的%d个粉丝标准'%(fans,fans - last_fans,max_fans))
+                print('当前粉丝数：%d,与上一次相比增加了%d个，已达到指定的%d个粉丝标准'%(fans,fans - last_fans,max_fans))
                 if emailaddr != "":
                     emailsend()
                     break
             elif fans-last_fans < 0:
-                print('当前粉丝数：%d,与上一秒相比减少了%d个，已达到指定的%d个粉丝标准'%(fans,last_fans - fans,max_fans))
+                print('当前粉丝数：%d,与上一次相比减少了%d个，已达到指定的%d个粉丝标准'%(fans,last_fans - fans,max_fans))
                 if emailaddr != "":
                     emailsend()
                     break
             else:
-                print('当前粉丝数：%d,与上一秒相比无变化，已达到指定的%d个标准'%(fans,max_fans))
+                print('当前粉丝数：%d,与上一次相比无变化，已达到指定的%d个标准'%(fans,max_fans))
                 if emailaddr != "":
                     emailsend()
                     break
         last_fans = fans
-        time.sleep(1)
+        time.sleep(2)
