@@ -5,9 +5,9 @@ import smtplib
 from email.mime.text import MIMEText
 from email.header import Header
 def emailsend():
-    tiptime = 3
-    mail_msg = '<h1>祝贺B站用户%s（uid：%d）达到了%d个粉丝数\n</h1>'\
-               '<h2>邮件由系统自动发出，无需回复</h2>'%(name,uid,max_fans)
+    localtime = time.asctime( time.localtime(time.time()) )
+    mail_msg = '<h1>祝贺B站用户%s（uid：%s）于%s达到了%s个粉丝数\n</h1>'\
+               '<h2>邮件由系统自动发出，无需回复</h2>'%(name,uid,localtime,max_fans)
     message = MIMEText(mail_msg, 'html', 'utf-8')
     message['From'] = Header('jiajiu', 'utf-8')
     message['To'] =  Header(username,'utf-8')
